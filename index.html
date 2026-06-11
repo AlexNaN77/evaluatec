@@ -317,6 +317,12 @@
     *{animation-duration:.001ms!important;animation-iteration-count:1!important}
     .intro-glow,.hud-area .dot{animation:none!important}
   }
+  
+    /* Oculta la intro hasta que el loader se va, para evitar el "salto" */
+  .screen:not(.active){display:none}
+  #intro{opacity:0;transition:opacity .01s}
+  #intro.active{display:flex}
+  
 </style>
 </head>
 <body>
@@ -459,35 +465,23 @@
 
 <!-- ============ TOAST ============ -->
 <div class="toast" id="toast"><span class="material-icons-round">check_circle</span><span id="toastMsg"></span></div>
-
 <!-- ============ FIREBASE (plug-and-play) ============ -->
 <script type="module">
 /* ════════════════════════════════════════════════════════════════
-   🔥 FIREBASE — RANKING EN LÍNEA (PLUG & PLAY)
-   ────────────────────────────────────────────────────────────────
-   PARA ACTIVAR EL RANKING REAL (5 minutos, gratis):
-   1. Entra a https://console.firebase.google.com  → "Agregar proyecto".
-   2. Una vez creado: ⚙️ "Configuración del proyecto" → baja a "Tus apps"
-      → ícono Web </> → registra una app web → copia el objeto firebaseConfig.
-   3. En el menú izquierdo: "Firestore Database" → "Crear base de datos"
-      → empieza en MODO DE PRUEBA (test mode).
-   4. Pega tu config abajo (reemplaza el objeto FIREBASE_CONFIG) y guarda.
-   Si lo dejas vacío o con los valores de ejemplo, la app usa
-   automáticamente un RANKING LOCAL simulado. Nunca se rompe.
+   🔥 FIREBASE — RANKING EN LÍNEA
+   Tu config ya está pegada abajo. Si algún día quieres quitarla,
+   reemplaza los valores por "PEGA_AQUI..." y caerá a modo local.
    ════════════════════════════════════════════════════════════════ */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCgePGyTX3uIn4VftA-YjmwMxCpXJROJIU",
+  authDomain: "evaluatec-quiz.firebaseapp.com",
+  projectId: "evaluatec-quiz",
+  storageBucket: "evaluatec-quiz.firebasestorage.app",
+  messagingSenderId: "718539908578",
+  appId: "1:718539908578:web:b30d2ad037c4a87e5a05bb"
+};
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyCgePGyTX3uIn4VftA-YjmwMxCpXJROJIU",
-    authDomain: "evaluatec-quiz.firebaseapp.com",
-    projectId: "evaluatec-quiz",
-    storageBucket: "evaluatec-quiz.firebasestorage.app",
-    messagingSenderId: "718539908578",
-    appId: "1:718539908578:web:b30d2ad037c4a87e5a05bb"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+const isConfigured = !Object.values(FIREBASE_CONFIG).some(v => String(v).startsWith("PEGA_AQUI"));
 
 const FB = {
   ready: false,
@@ -526,6 +520,7 @@ const FB = {
 window.__FB = FB;
 window.__FB_CONFIGURED = isConfigured;
 </script>
+
 
 <script>
 /* ════════════════════════════════════════════════════════════════
@@ -835,6 +830,8 @@ function show(screen){
 
 /* ════════ INTRO ════════ */
 function introIntro(){
+  $('#intro').style.opacity = 1;   // fix: salto cuando carga gsaappp :)
+  
   if(reduceMotion){ gsap.set('#intro h1 .ln>span, .intro-eyebrow, .intro-sub, .info-card, .intro-setup, .intro-actions, .intro-note',{opacity:1,y:0}); return; }
   gsap.set('#intro h1 .ln>span',{yPercent:110});
   gsap.set('.intro-eyebrow, .intro-sub, .info-card, .intro-setup, .intro-actions, .intro-note',{opacity:0,y:24});
