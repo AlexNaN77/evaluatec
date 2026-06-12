@@ -771,7 +771,7 @@ $('#nickInput').addEventListener('keydown',e=>{ if(e.key==='Enter') submitName()
 
 /* ===== 2) SETUP ===== */
 function bootSetup(){
-  $('#greet').textContent=`¡Va, ${state.nickname}! 🔥`;
+  $('#greet').textContent=`Va, ${state.nickname}!`;
   const saved=loadSaved();
   $('#continueBtn').style.display = saved ? 'inline-flex':'none';
   show('setup');
@@ -850,7 +850,7 @@ function enterQuiz(fresh){
   show('quiz');
   startTimer();
   renderQuestion(state.current,'none',true);
-  if(fresh!==false && state.current===0) toast('¡Vamos! Tienes 3 horas, tú puedes 🔥');
+  if(fresh!==false && state.current===0) toast('Heeey!! Tienes 3 horas, tú puedes.');
 }
 function curFlat(){ return FLAT[state.order[state.current]]; }
 function fmtTime(s){ const h=String(Math.floor(s/3600)).padStart(2,'0'),m=String(Math.floor((s%3600)/60)).padStart(2,'0'),x=String(s%60).padStart(2,'0'); return `${h}:${m}:${x}`; }
@@ -1062,9 +1062,9 @@ function showRanking(){
   const total=all.length, below=all.filter(e=>e.pct<myPct).length;
   const percentile=Math.round(below/Math.max(total,1)*100), avg=Math.round(all.reduce((s,e)=>s+e.pct,0)/Math.max(total,1));
   let p;
-  if(percentile>=90) p=`Estás en el <span class="big">top ${Math.max(100-percentile,1)}%</span> 🔥 Superas al <strong>${percentile}%</strong> de ${total} intentos.`;
-  else if(percentile>=50) p=`Vas mejor que el <span class="big">${percentile}%</span> de la banda. Promedio general: <strong>${avg}%</strong>.`;
-  else p=`Por ahora superas al <span class="big">${percentile}%</span> de ${total} intentos. El promedio anda en <strong>${avg}%</strong>, ¡hay terreno por ganar!`;
+  if(percentile>=90) p=`Estás en el <span class="big">top ${Math.max(100-percentile,1)}%</span>  Superas al <strong>${percentile}%</strong> de ${total} intentos.`;
+  else if(percentile>=50) p=`Vas mejor que el <span class="big">${percentile}%</span> de la gente. Promedio general: <strong>${avg}%</strong>.`;
+  else p=`Por ahora superas al <span class="big">${percentile}%</span> de ${total} intentos. El promedio anda en <strong>${avg}%</strong>, hay terreno por ganar!`;
   $('#lbPercentile').innerHTML=p;
   let me=false;
   $('#lbList').innerHTML=top.map((e,i)=>{ const isMe=!me&&e.name===entry.name&&e.pct===myPct; if(isMe)me=true;
